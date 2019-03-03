@@ -21,17 +21,19 @@ phi_out = phi_out_start;
 for j = 1:N_iter+1
     
     %Specify good iteration number and lambda
-    x = TrainNetwork(phi_in,phi_out,U,M,1.5,400);
+    x = TrainNetwork(phi_in,phi_out,U,M,1.5,250);
     CList(j) = CostNetwork(phi_in_start,phi_out_start,x,M);
     if j < N_iter+1
-        phi_in = phi_in_start(:,randperm(N_NumTrain));
-        phi_out = phi_out_start(:,randperm(N_NumTrain));
-        phi_in_noisy = phi_in_noisy(:,randperm(N_NumTrain));
-        phi_out_noisy = phi_out_noisy(:,randperm(N_NumTrain));
+        List = randperm(N_NumTrain);
+        phi_in = phi_in_start(:,List);
+        phi_out = phi_out_start(:,List);
+       
+        List = randperm(N_NumTrain);
+        phi_in_noisy = phi_in_noisy(:,List);
+        phi_out_noisy = phi_out_noisy(:,List);
+        
         phi_in(:,1:s*j) = phi_in_noisy(:,1:s*j);
         phi_out(:,1:s*j) = phi_out_noisy(:,1:s*j);
-        phi_in = phi_in(:,randperm(N_NumTrain));
-        phi_out = phi_out(:,randperm(N_NumTrain));
     end
     
 end
